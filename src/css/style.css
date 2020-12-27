@@ -1,0 +1,84 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgba(236, 178, 18, 0.247);
+  line-height: 1.2;
+}
+
+body::before {
+  position: absolute;
+  content: '';
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: black;
+  opacity: 0.2;
+  z-index: -1;
+}
+
+.container {
+  max-width: 1920px;
+  margin: 20px auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.task-field {
+  width: 100%;
+  padding: 5px 10px;
+}
+
+.hint {
+  position: absolute;
+  margin-top: 2px;
+  font-size: 1rem;
+  color: red;
+  content: '';
+}
+
+.tasks-pinned,
+.all-tasks {
+  min-height: 200px;
+  padding: 10px 0;
+}
+
+.task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 2px solid #000;
+}
+
+.controls {
+  display: flex;
+}
+
+.task-switch-label {
+  position: relative;
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+.task-switch {
+  display: none;
+}
+
+.mark::after {
+  content: "➕";
+}
+
+.task-switch:checked + .mark::after {
+  content: "\1F4CC";
+}
+
+.task-delete {
+  display: block;
+  width: 48px;
+  height: 24px;
+
+}
+
