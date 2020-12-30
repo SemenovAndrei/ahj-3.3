@@ -3,12 +3,14 @@ export default class Gallery {
     this.form = form;
     this.picsContainer = picsContainer;
     this.contentArray = [];
+    this.storage = localStorage;
   }
 
   init() {
     this.addContainer();
     this.addForm();
-    this.addPicture();
+    this.loadData();
+    this.showPicture();
     this.addListener();
   }
 
@@ -27,40 +29,7 @@ export default class Gallery {
   addListener() {
     this.container.addEventListener('click', (e) => {
       if (e.target.classList.contains('btn-delete')) { this.deletePicture(e); }
-    });
-
-    const btnSubmit = document.querySelector('.btn-submit');
-    btnSubmit.addEventListener('click', (e) => {
-      e.preventDefault();
-
-      if (!this.fieldTitle.value) {
-        Gallery.showMessage('Нужно заполнить поле', this.fieldTitle);
-        return;
-      }
-
-      const img = document.createElement('img');
-      img.src = this.fieldUrl.value;
-      img.alt = this.fieldTitle.value;
-
-      img.onerror = () => Gallery.showMessage('Неверный URL изображения', this.fieldUrl);
-
-      img.onload = () => {
-        img.classList.add('pic');
-
-        const container = {
-          title: this.fieldTitle.value,
-          url: this.fieldUrl.value,
-          node: this.picsContainer.getContainer(),
-        };
-        container.node.classList.remove('empty');
-        container.node.appendChild(img);
-        this.contentArray.push(container);
-
-        this.fieldUrl.value = '';
-        this.fieldTitle.value = '';
-
-        this.addPicture();
-      };
+      if (e.target.classList.contains('btn-submit')) { this.addPicture(e); }
     });
   }
 
@@ -83,7 +52,51 @@ export default class Gallery {
     }, 2000);
   }
 
-  addPicture() {
+  getID() {
+    let cnt = 0;
+    // eslint-disable-next-line no-loop-func
+    while (this.contentArray.some((e) => e.id === String(cnt))) {
+      cnt += 1;
+    }
+    return String(cnt);
+  }
+
+  addPicture(e) {
+    e.preventDefault();
+
+    if (!this.fieldTitle.value) {
+      Gallery.showMessage('Нужно заполнить поле', this.fieldTitle);
+      return;
+    }
+
+    const img = document.createElement('img');
+    img.src = this.fieldUrl.value;
+    img.alt = this.fieldTitle.value;
+
+    img.onerror = () => Gallery.showMessage('Неверный URL изображения', this.fieldUrl);
+
+    img.onload = () => {
+      img.classList.add('pic');
+      img.dataset.id = this.getID();
+
+      const container = {
+        title: img.alt,
+        url: img.src,
+        id: img.dataset.id,
+        node: this.picsContainer.getContainer(),
+      };
+      container.node.classList.remove('empty');
+      container.node.appendChild(img);
+      this.contentArray.push(container);
+
+      this.fieldUrl.value = '';
+      this.fieldTitle.value = '';
+
+      this.showPicture();
+    };
+  }
+
+  showPicture() {
     this.cleanPictureContainer();
 
     this.contentArray.forEach((e) => {
@@ -91,18 +104,20 @@ export default class Gallery {
     });
 
     this.addEmptyPicture();
+
+    this.saveData();
   }
 
   deletePicture(e) {
     e.preventDefault();
 
-    const parent = e.target.closest('.pic-container');
-    const elementToDelete = parent.querySelector('img');
+    const elementToDelete = e.target.closest('.pic-container');
+    const img = elementToDelete.querySelector('img');
 
-    if (elementToDelete) {
-      this.contentArray = this.contentArray.filter((el) => el.url !== elementToDelete.src);
+    if (img) {
+      this.contentArray = this.contentArray.filter((el) => el.id !== img.dataset.id);
     }
-    this.addPicture();
+    this.showPicture();
   }
 
   cleanPictureContainer() {
@@ -114,5 +129,26 @@ export default class Gallery {
       this.pictureContainer.appendChild(this.picsContainer.getContainer());
     }
     this.pictureContainer.appendChild(this.picsContainer.getContainer());
+  }
+
+  saveData() {
+    this.storage.setItem('data', JSON.stringify(this.contentArray));
+  }
+
+  loadData() {
+    const data = JSON.parse(this.storage.getItem('data'));
+    data.forEach((e) => {
+      const img = document.createElement('img');
+      img.classList.add('pic');
+      img.src = e.url;
+      img.alt = e.title;
+      img.dataset.id = e.id;
+
+      e.node = this.picsContainer.getContainer();
+      e.node.classList.remove('empty');
+      e.node.appendChild(img);
+    });
+
+    this.contentArray = data;
   }
 }

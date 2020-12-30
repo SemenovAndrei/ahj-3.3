@@ -71,7 +71,6 @@ body::before {
 .pics-container {
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: space-around; */
 }
 
 .empty {
@@ -82,9 +81,17 @@ body::before {
 .pic-container {
   position: relative;
   width: 100px;
-  margin: 10px;
+  margin: 20px;
   height: 100px;
-  border: 1px solid  rgb(114, 114, 114);
+  box-shadow: 1px 1px 5px 0px #424242;
+}
+
+.pic-container:hover .btn-delete {
+  display: block;
+}
+
+.empty:hover .btn-delete {
+  display: none;
 }
 
 .pic {
@@ -94,16 +101,27 @@ body::before {
   object-fit: cover;
 }
 
+.pic:hover {
+  transform: scale(1.2);
+}
+
 .label-btn {
-  width: 24px;
   position: absolute;
-  right: -12px;
-  top: -12px;
+  width: 120px;
+  z-index: 10;
+  right: -15px;
+  top: -30px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .btn-delete {
+  display: none;
+  width: 30px;
+  height: 30px;
   border-style: none;
   cursor: pointer;
   border-radius: 50%;
 }
+
 
