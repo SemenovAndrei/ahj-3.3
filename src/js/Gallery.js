@@ -25,8 +25,12 @@ export default class Gallery {
   }
 
   addListener() {
-    const btn = document.querySelector('.btn-submit');
-    btn.addEventListener('click', (e) => {
+    this.container.addEventListener('click', (e) => {
+      if (e.target.classList.contains('btn-delete')) { this.deletePicture(e); }
+    });
+
+    const btnSubmit = document.querySelector('.btn-submit');
+    btnSubmit.addEventListener('click', (e) => {
       e.preventDefault();
 
       if (!this.fieldTitle.value) {
@@ -43,9 +47,13 @@ export default class Gallery {
       img.onload = () => {
         img.classList.add('pic');
 
-        const container = this.picsContainer.getContainer();
-        container.classList.remove('empty');
-        container.appendChild(img);
+        const container = {
+          title: this.fieldTitle.value,
+          url: this.fieldUrl.value,
+          node: this.picsContainer.getContainer(),
+        };
+        container.node.classList.remove('empty');
+        container.node.appendChild(img);
         this.contentArray.push(container);
 
         this.fieldUrl.value = '';
@@ -79,10 +87,22 @@ export default class Gallery {
     this.cleanPictureContainer();
 
     this.contentArray.forEach((e) => {
-      this.pictureContainer.appendChild(e);
+      this.pictureContainer.appendChild(e.node);
     });
 
     this.addEmptyPicture();
+  }
+
+  deletePicture(e) {
+    e.preventDefault();
+
+    const parent = e.target.closest('.pic-container');
+    const elementToDelete = parent.querySelector('img');
+
+    if (elementToDelete) {
+      this.contentArray = this.contentArray.filter((el) => el.url !== elementToDelete.src);
+    }
+    this.addPicture();
   }
 
   cleanPictureContainer() {

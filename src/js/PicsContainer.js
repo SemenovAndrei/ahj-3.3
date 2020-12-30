@@ -20,8 +20,8 @@ export default class PicsContainer {
   static createMarkupContainer() {
     return `
     <label class="label-btn">
-      <button class="btn-close">X</button>
-      <div class="pic-close"></div>
+      <button class="btn-delete">X</button>
+      <div class="pic-delete"></div>
     </label>
     `;
   }

@@ -101,7 +101,7 @@ body::before {
   top: -12px;
 }
 
-.btn-close {
+.btn-delete {
   border-style: none;
   cursor: pointer;
   border-radius: 50%;
