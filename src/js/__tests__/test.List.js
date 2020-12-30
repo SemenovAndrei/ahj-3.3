@@ -1,8 +1,8 @@
-import List from '../List';
+import FormMain from '../FormMain';
 
-const list = new List();
+const form = new FormMain();
 
-test('create List', () => {
-  const obj = list.getList();
-  expect(obj.classList.contains('container')).toBeTruthy();
+test('create FormMain', () => {
+  const obj = form.getForm();
+  expect(obj.classList.contains('form-main')).toBeTruthy();
 });
