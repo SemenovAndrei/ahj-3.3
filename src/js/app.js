@@ -1,10 +1,10 @@
-import List from './List';
-import Task from './Task';
-import TasksList from './TasksList';
+import FormMain from './FormMain';
+import PicsContainer from './PicsContainer';
+import Gallery from './Gallery';
 
-const list = new List();
+const form = new FormMain();
 
-const task = new Task();
+const picsContainer = new PicsContainer();
 
-const tasksList = new TasksList(list, task);
-tasksList.init();
+const gallery = new Gallery(form, picsContainer);
+gallery.init();
