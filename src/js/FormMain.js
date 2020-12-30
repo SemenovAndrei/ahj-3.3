@@ -1,14 +1,23 @@
+/**
+ * @class FormMain
+ */
 export default class FormMain {
   constructor() {
     this.form = null;
   }
 
+  /**
+   * @return this.form
+   */
   getForm() {
     this.createForm();
 
     return this.form;
   }
 
+  /**
+   * Create the form width markup
+   */
   createForm() {
     const form = document.createElement('form');
     form.classList.add('form-main');
@@ -16,6 +25,9 @@ export default class FormMain {
     this.form = form;
   }
 
+  /**
+   * Create markup for the form
+   */
   static addMarkUpForm() {
     return `
     <label class="label title">

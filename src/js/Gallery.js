@@ -1,4 +1,12 @@
+/**
+ * @class Gallery
+ */
 export default class Gallery {
+  /**
+   *
+   * @param {Class} form - FormMain
+   * @param {Class} picsContainer - PicsContainer
+   */
   constructor(form, picsContainer) {
     this.form = form;
     this.picsContainer = picsContainer;
@@ -6,6 +14,9 @@ export default class Gallery {
     this.storage = localStorage;
   }
 
+  /**
+   * App init()
+   */
   init() {
     this.addContainer();
     this.addForm();
@@ -14,6 +25,9 @@ export default class Gallery {
     this.addListener();
   }
 
+  /**
+   * Add container on page
+   */
   addContainer() {
     this.pictureContainer = document.createElement('div');
     this.pictureContainer.classList.add('pics-container');
@@ -26,6 +40,9 @@ export default class Gallery {
     this.body.insertBefore(this.container, this.body.childNodes[0]);
   }
 
+  /**
+   * Add listeners
+   */
   addListener() {
     this.container.addEventListener('click', (e) => {
       if (e.target.classList.contains('btn-delete')) { this.deletePicture(e); }
@@ -33,6 +50,9 @@ export default class Gallery {
     });
   }
 
+  /**
+   * Add form on page
+   */
   addForm() {
     this.container.insertBefore(this.form.getForm(), this.container.childNodes[0]);
 
@@ -40,6 +60,12 @@ export default class Gallery {
     this.fieldUrl = document.querySelector('.field-url');
   }
 
+  /**
+   * Show message on page
+   *
+   * @param {String} message - message
+   * @param {Object} element - HTML object
+   */
   static showMessage(message, element) {
     const hint = element.nextElementSibling;
     hint.textContent = message;
@@ -57,6 +83,9 @@ export default class Gallery {
     }, 2000);
   }
 
+  /**
+   * Get ID
+   */
   getID() {
     let cnt = 0;
     // eslint-disable-next-line no-loop-func
@@ -66,6 +95,11 @@ export default class Gallery {
     return String(cnt);
   }
 
+  /**
+   * Add picture in this.contentArray
+   *
+   * @param {event} e - event
+   */
   addPicture(e) {
     e.preventDefault();
 
@@ -101,6 +135,9 @@ export default class Gallery {
     };
   }
 
+  /**
+   * Show the picture on page
+   */
   showPicture() {
     this.cleanPictureContainer();
 
@@ -113,6 +150,11 @@ export default class Gallery {
     this.saveData();
   }
 
+  /**
+   * Delete picture
+   *
+   * @param {event} e - event
+   */
   deletePicture(e) {
     e.preventDefault();
 
@@ -125,10 +167,16 @@ export default class Gallery {
     this.showPicture();
   }
 
+  /**
+   * Clean this.pictureContainer
+   */
   cleanPictureContainer() {
     this.pictureContainer.innerHTML = '';
   }
 
+  /**
+   * Add empty blocks on page
+   */
   addEmptyPicture() {
     while (this.pictureContainer.childNodes.length < 2) {
       this.pictureContainer.appendChild(this.picsContainer.getContainer());
@@ -136,10 +184,16 @@ export default class Gallery {
     this.pictureContainer.appendChild(this.picsContainer.getContainer());
   }
 
+  /**
+   * Save this.contentArray in localStorage
+   */
   saveData() {
     this.storage.setItem('data', JSON.stringify(this.contentArray));
   }
 
+  /**
+   * Load "data" in this.contentArray
+   */
   loadData() {
     if (!this.storage.getItem('data')) { return; }
 
