@@ -44,7 +44,12 @@ export default class Gallery {
     const hint = element.nextElementSibling;
     hint.textContent = message;
     hint.style.left = `${element.getBoundingClientRect().left}px`;
-    hint.style.top = `${element.getBoundingClientRect().top - 30}px`;
+
+    if (window.screen.width > 640) {
+      hint.style.top = `${element.getBoundingClientRect().top - 30}px`;
+    } else {
+      hint.style.top = `${element.getBoundingClientRect().top + 30}px`;
+    }
 
     setTimeout(() => {
       hint.textContent = '';

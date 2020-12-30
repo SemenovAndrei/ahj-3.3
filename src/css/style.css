@@ -124,4 +124,33 @@ body::before {
   border-radius: 50%;
 }
 
+@media (max-width: 640px) {
+  .form-main {
+    width: 100%;
+  }
 
+  .label {
+    display: block;
+  }
+
+  .label:not(nth-last-child) {
+  margin-bottom: 30px;
+}
+
+  .label-title {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .btn-submit {
+    width: 70%;
+  }
+
+  .pics-container {
+    justify-content: space-around;
+  }
+
+  .pic-container {
+    width: 35%;
+  }
+}
