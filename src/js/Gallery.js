@@ -141,6 +141,8 @@ export default class Gallery {
   }
 
   loadData() {
+    if (!this.storage.getItem('data')) { return; }
+
     const data = JSON.parse(this.storage.getItem('data'));
     data.forEach((e) => {
       const img = document.createElement('img');
